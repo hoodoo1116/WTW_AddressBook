@@ -36,7 +36,7 @@ namespace WTW_AddressBook.Controllers
             var value = new Address();
             using (var dataContext = new AddressContext())
             {
-
+                value = dataContext.Addresses.FirstOrDefault(item => item.AddressId == id);
             }
 
             return value;
