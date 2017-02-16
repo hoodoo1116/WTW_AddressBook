@@ -5,9 +5,9 @@
                 <h2 className="nameAddress">
                     {this.props.name}
                 </h2>
-                {this.props.addressLineOne}
+                <div className="addressOne">{this.props.addressLineOne}</div>
                 {this.props.addresLineTwo}
-                {this.props.city}{this.props.state}{this.props.zip}
+                {this.props.city}{this.props.addressState}{this.props.zip}
                 {this.props.country}
             </div>
         );
@@ -18,12 +18,10 @@ var AddressList = React.createClass({
     render: function () {
         var addresses = this.props.data.map(function (address) {
             return (
-                <Address name={address.name} key={address.id }>
-                    {address.addressLineOne}
-                    {address.addressLineTwo}
-                    {address.city}{address.state}{address.zip}
-                    {address.country}
-                </Address>
+                <Address key={address.addressId}
+                         name={address.name}>
+                         {address.addressState}                        
+                    </Address>
             );
         });
         return (
@@ -37,8 +35,8 @@ var AddressList = React.createClass({
 var AddressForm = React.createClass({
     getInitialState: function() {
         return {
-            name: '', addressLineOne: '', addressLineTwo: '',
-            city: '', state: '', zip: '', country: ''
+            addressId: '', name: '', addressLineOne: '', addressLineTwo: '',
+            city: '', addressState: '', zip: '', country: ''
         };
     },
     handleNameChange: function (e) {
@@ -54,7 +52,7 @@ var AddressForm = React.createClass({
         this.setState({ city: e.target.value });
     },
     handleStateChange: function (e) {
-        this.setState({ state: e.target.value });
+        this.setState({ addressState: e.target.value });
     },
     handleZipChange: function (e) {
         this.setState({ zip: e.target.value });
@@ -64,11 +62,12 @@ var AddressForm = React.createClass({
     },
     handleSubmit: function(e) {
         e.preventDefault();
+        var addressId = this.state.adddressId.trim();
         var name = this.state.name.trim();
         var addressLineOne = this.state.addressLineOne.trim();
         var addressLineTwo = this.state.addressLineTwo.trim();
         var city = this.state.city.trim();
-        var state = this.state.state.trim();
+        var addressState = this.state.addressState.trim();
         var zip = this.state.zip.trim();
         var country = this.state.country.trim();
         
@@ -77,13 +76,13 @@ var AddressForm = React.createClass({
         }
 
         this.props.onCommentSubmit({
-            name: name, addressLineOne: addressLineOne, addressLineTwo: addressLineTwo,
-            city: city, state: state, zip: zip, country: country
+            addressId: addressId, name: name, addressLineOne: addressLineOne, addressLineTwo: addressLineTwo,
+            city: city, addressState: addressState, zip: zip, country: country
         })
 
         this.setState( {
-            name: '', addressLineOne: '', addressLineTwo: '',
-            city: '', state: '', zip: '', country: ''
+            adddressId: '', name: '', addressLineOne: '', addressLineTwo: '',
+            city: '', addressState: '', zip: '', country: ''
         });
     },
     render: function () {
@@ -91,37 +90,37 @@ var AddressForm = React.createClass({
         <form className="addressForm">
             <input type="text" 
                    placeholder="Name" 
-                   value="this.state.name"
+                   value="{this.state.name}"
                    onChange={this.handleNameChange}
                    />
             <input type="text" 
                    placeholder="Address Line One"
-                   value="this.state.addressLineOne"
+                   value="{this.state.addressLineOne}"
                    onChange={this.handleAddressLineOneChange}
                    />
             <input type="text" 
                    placeholder="Address Line Two"
-                   value="this.state.addressLineTwo"
+                   value="{this.state.addressLineTwo}"
                    onChange={this.handleAddressLineTwoChange}
                    />
             <input type="text" 
                    placeholder="City"
-                   value="this.state.city"
+                   value="{this.state.city}"
                    onChange={this.handleCityChange}
                    />
             <input type="text" 
                    placeholder="State"
-                   value="this.state.state"
+                   value="{this.state.addressState}"
                    onChange={this.handleStateChange}
                    />
             <input type="text" 
                    placeholder="Zip" 
-                   value="this.state.zip"
+                   value="{this.state.zip}"
                    onChange={this.handleZipChange}
                    />
             <input type="text" 
                    placeholder="Country" 
-                   value="this.state.country"
+                   value="{this.state.country}"
                    onChange={this.handleCountryChange}
                    />
             <input type="submit" value="Add Address" />
@@ -143,11 +142,12 @@ var AddressBox = React.createClass({
     },
     handleAddressSubmit: function(address) {
         var data = new FormData();
+        data.append('addressId', address.adddressId);
         data.append('name', address.name);
         data.append('addressLineOne', address.addressLineOne);
         data.append('addressLineTwo', address.addressLineTwo);
         data.append('city', address.city);
-        data.append('state', address.state);
+        data.append('addressState', address.addressState);
         data.append('zip', address.zip);
         data.append('country', address.country);
 
@@ -167,7 +167,7 @@ var AddressBox = React.createClass({
     },
     render: function () {
         return (
-            <div className="addresBox">
+            <div className="addressBox">
                 <h1>Addresses</h1>
                 <AddressList data={this.state.data} />
                 <AddressForm onAddressSubmit={this.handleAddressSubmit}/>
