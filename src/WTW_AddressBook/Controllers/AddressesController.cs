@@ -64,7 +64,7 @@ namespace WTW_AddressBook.Controllers
                 updateValue.AddressLineOne = value.AddressLineOne;
                 updateValue.AddressLineTwo = value.AddressLineTwo;
                 updateValue.City = value.City;
-                updateValue.State = value.State;
+                updateValue.AddressState = value.AddressState;
                 updateValue.Zip = value.Zip;
                 updateValue.Country = value.Country;
 
