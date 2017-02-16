@@ -12,9 +12,6 @@ namespace WTW_AddressBook.Controllers
     [Route("api/[controller]")]
     public class AddressesController : Controller
     {
-        //Not Necessary
-        private static readonly IList<Address> _addresses;
-
         // GET: api/values
         [HttpGet]
         public IEnumerable<Address> Get()
@@ -44,7 +41,7 @@ namespace WTW_AddressBook.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Address value)
+        public void Post(Address value)
         {
             using (var dataContext = new AddressContext())
             {
@@ -55,7 +52,7 @@ namespace WTW_AddressBook.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Address value)
+        public void Put(int id, Address value)
         {          
             using (var dataContext = new AddressContext())
             {
